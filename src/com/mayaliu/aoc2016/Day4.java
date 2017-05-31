@@ -1,9 +1,6 @@
 package com.mayaliu.aoc2016;
 
-import java.util.TreeMap;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.Set;
 import java.util.TreeSet;
 
 public class Day4 {
@@ -32,24 +29,11 @@ public class Day4 {
 						if (letterMap.containsKey(character)) {
 							l = letterMap.get(character);
 							l.increaseCount();
-//							letterMap.get(character).increaseCount();
 						} else {
 							l = new Letter(c);
 						}
 
 						letterMap.put(character, l);
-//						Boolean found = false;
-//						
-//						for (Letter l : sortedSet) {
-//							if (l.getValue() == c) {
-//								l.increaseCount();
-//								found = true;
-//								break;
-//							}
-//						} 
-//						if (!found) {
-//							sortedSet.add(new Letter(c));
-//						}
 					}
 				} else if (c == '[') {
 					beginChecksum = true;
@@ -62,23 +46,14 @@ public class Day4 {
 				sortedSet.add(l);
 			}
 			
-//			Set<Character> keys = map.keySet();
-//			for (Letter l : sortedSet) {
-//				System.out.print(l.getValue() + "=>" + l.getCount() + "; ");
-//			}
-//			System.out.print("\n ID:" + id.toString() + "; ");
-//			System.out.print("checksum: " + checksum.toString() + "\n");
-			
 			// If the checksum is the same as the first 5 of the sortedSet, keep track of the ID.
 			StringBuilder mostCommonLetters = new StringBuilder();
 			for (int i = 0; i < 5; i++) {
 				mostCommonLetters.append(sortedSet.pollFirst().getValue());
 			}
 			
-//			System.out.println("*** " + mostCommonLetters.toString());
-//			System.out.println("common: " + mostCommonLetters + ", " + "checksum: " + checksum);
 			if (mostCommonLetters.toString().equals(checksum.toString())) {
-				int shift = (Integer.parseInt(id.toString()) - 'a')%26;
+				int shift = (Integer.parseInt(id.toString()))%26;
 				StringBuilder actualRoomBuilder = new StringBuilder();
 				for (char c : characters) {
 					if (Character.getType(c) == Character.DECIMAL_DIGIT_NUMBER) {
@@ -86,23 +61,19 @@ public class Day4 {
 					}
 					if (c == '-') {
 						actualRoomBuilder.append(' ');
-					} else {
-						int actualShift = (c + shift < 'z') ? shift : c + shift - 26;
-						actualRoomBuilder.append((char) (c + actualShift));
+					} else {		
+						char shiftedChar = (char) ((c + shift ) > 'z'? c + shift - 26 : c + shift);
+						actualRoomBuilder.append(shiftedChar);
 					}
 				}
-				System.out.println("shift: " + shift);
 				
-				if (actualRoomBuilder.toString().indexOf("north pole") > -1) {
-					
+				if (actualRoomBuilder.toString().indexOf("Northpole object storage".toLowerCase()) > -1) {
+					System.out.println(actualRoomBuilder.toString() + "is in sector " + id);
 				}
 
-				System.out.println("actual room: " + actualRoomBuilder.toString());
-//				idSum += Integer.parseInt(id.toString());
 			}
 		}
 		
-//		System.out.println("The sum is " + idSum);
 	}
 
 }
